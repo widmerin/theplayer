@@ -3,6 +3,9 @@
 import ddf.minim.*;
 import ddf.minim.analysis.*;
 import ddf.minim.*;
+import processing.awt.PSurfaceAWT.SmoothCanvas;
+import javax.swing.JFrame;
+import java.awt.Dimension;
 
 AudioPlayer player;
 AudioMetaData meta;
@@ -22,7 +25,15 @@ boolean isPlaying = false;
 float volume = -30;
 
 void setup() {
-  size (400, 400);
+  size (500, 500);
+
+  SmoothCanvas sc = (SmoothCanvas) getSurface().getNative();
+  JFrame jf = (JFrame) sc.getFrame();
+  Dimension d = new Dimension(300, 300);
+  jf.setMinimumSize(d);
+  println(jf.getMinimumSize());
+  getSurface().setResizable(true);
+  
   minim = new Minim(this);  
   smooth();
   surface.setResizable(true);
@@ -51,7 +62,7 @@ void draw() {
      on_button.resizeButton();
     
     if(file==""){
-       image(img, ws/2-70,ws/2-70);
+       image(img, width/2-70,height/2-70);
     }else{
       if(!isPlaying){
        triangle(width/2-50, height/2+50, width/2-50, height/2-50, width/2+50, height/2); 
