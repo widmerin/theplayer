@@ -1,10 +1,13 @@
 //meco Aufgabe 1 Marco Agovino, Davina , Ina Widmer, Michael Job
 
 import ddf.minim.*;
+import ddf.minim.analysis.*;
+import ddf.minim.*;
 
 AudioPlayer player;
 AudioMetaData meta;
 Minim minim;//audio context
+FFT         fft;
 PImage img;
 
 int ws = 400;  //windowsize
@@ -46,10 +49,22 @@ void draw() {
       if(!isPlaying){
        triangle(ws/2-50, ws/2+50, ws/2-50, ws/2-50, ws/2+50, ws/2); 
       } else {
-         textSize(20);
+        textSize(20);
         text(meta.title() +" - "+meta.author(), 5, 25);
         rect(ws/2-50,ws/2-50, 30, 100);
         rect(ws/2+10,ws/2-50, 30, 100);
+        
+        stroke(255); 
+        // perform a forward FFT on the samples in jingle's mix buffer,
+        // which contains the mix of both the left and right channels of the file
+        fft.forward( player.mix );
+        
+        for(int i = 0; i < fft.specSize(); i++)
+        {
+          // draw the line for frequency band i, scaling it up a bit so we can see it
+          line( i, height, i, height - fft.getBand(i)*8 );
+        }        
+        
       }
     }
 }
@@ -79,6 +94,7 @@ void mouseReleased()
 void play(){
      isPlaying=true;
      player = minim.loadFile(file, 2048);
+     fft = new FFT( player.bufferSize(), player.sampleRate() );
      meta = player.getMetaData();
      player.play();
 }
