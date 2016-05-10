@@ -5,7 +5,7 @@ import ddf.minim.*;
 AudioPlayer player;
 Minim minim;//audio context
 FFT         fft;
-int ws = 200;  //windowsize
+int ws = 400;  //windowsize
 
 
 Button on_button;  // the button
@@ -13,7 +13,7 @@ int clk = 1;       // number of times the button is clicked
 boolean isPlaying = false;
 
 void setup() {
-  size (512, 200, P3D);
+  size (512, 400, P3D);
   minim = new Minim(this);  
   smooth();   // für was ist das?
   
@@ -22,9 +22,7 @@ void setup() {
 }
 
 void draw() {
-  // draw a square if the mouse curser is over the button
-  background(0); 
-  
+  background(10);  
   // draw the button in the window
    on_button.Draw();
 }
@@ -57,7 +55,7 @@ void mouseReleased()
     //todo: e.g. play audio file
     if(!isPlaying) {
       isPlaying=true;
-      player = minim.loadFile("alice.mp3", 2048);
+      player = minim.loadFile("besser.mp3", 2048);
         player.loop();
         drawFreq();
     }
