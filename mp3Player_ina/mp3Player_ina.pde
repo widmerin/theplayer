@@ -20,7 +20,7 @@ void setup() {
   smooth();
   img = loadImage("musical-note.png");
  
-   frame.setTitle("The Player");
+  surface.setTitle("The Player");
   // create the button object
   on_button = new Button();
 }
@@ -46,7 +46,6 @@ void draw() {
       if(!isPlaying){
        triangle(ws/2-50, ws/2+50, ws/2-50, ws/2-50, ws/2+50, ws/2); 
       } else {
-         frame.setTitle(meta.title()+"-"+meta.author());
          textSize(20);
         text(meta.title() +" - "+meta.author(), 5, 25);
         rect(ws/2-50,ws/2-50, 30, 100);
