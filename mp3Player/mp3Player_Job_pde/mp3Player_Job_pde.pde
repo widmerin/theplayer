@@ -76,6 +76,8 @@ void draw() {
        float gainNew = (((width-200)*78)/600)-60;
        player.setGain(gainNew); 
        
+        //draw cover
+      //  byte[] img = meta.cover();
         
         //draw artist and songtitle
         textSize(20);
@@ -91,11 +93,14 @@ void draw() {
         fft.forward( player.mix );
         //draw frequencies
         strokeWeight((width/fft.specSize())+2); 
-        for(int i = 0; i < fft.specSize(); i=i+5)
-        {
-          stroke( (i/1024)*255 , 0 , abs( i/1024*255-255 )   );
+        for(float i = 0; i < fft.specSize(); i=i+5) {    //i in float for color calculation  
+          stroke( (i/512)*255 , 0 , abs( (i/512*255)-255 )   );
           // draw the line for frequency band i, scaling it up a bit so we can see it
-          line( i, height, i, height - fft.getBand(i)*12 );
+          line( i, height, i, height - fft.getBand((int)i)*12 );    //i cast to int for FFT
+          stroke( abs( (i/512*255)-255 ),0, (i/512)*255  );
+          // draw the line for frequency band i, scaling it up a bit so we can see it
+          line( width-i, 0, width-i, fft.getBand((int)i)*12 );    //i cast to int for FFT
+      
         }    
       }
     }
@@ -121,7 +126,7 @@ void mouseReleased()
 
 void play(){
      isPlaying=true;
-     player = minim.loadFile(file, 2048);
+     player = minim.loadFile(file, 1024);
      fft = new FFT( player.bufferSize(), player.sampleRate() );
      meta = player.getMetaData();
      player.play();
